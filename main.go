@@ -58,7 +58,10 @@ func getPort() string {
 
 func initDB() {
 	var err error
-	connStr := "postgres://postgres:password@localhost:5432/postgres?sslmode=disable"
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		connStr = "postgres://postgres:password@localhost:5432/postgres?sslmode=disable" // Your connection string of Postgres url
+	}
 	db, err = sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatal(err)
